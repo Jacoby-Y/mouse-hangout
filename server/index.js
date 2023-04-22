@@ -15,15 +15,14 @@ const server = http.createServer(app);
 const io = new Server(server);
 
 // Serve static files from the "public" directory
-app.use(express.static('dist'));
+app.use(express.static('public'));
 
 // Set up a route to serve the index.html file
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/dist/index.html');
+  res.sendFile(__dirname + '/public/index.html');
 });
 
 io.on("connection", socket => {
-    console.log("Connected!");
     socket.on("move", ({ name, trail }) => {
         socket.broadcast.emit("trail", { name: socket.id, trail });
     });

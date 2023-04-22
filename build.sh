@@ -2,4 +2,4 @@ cd website
 
 npm run build
 
-mv dist ../server/dist
+mv dist ../server/public
