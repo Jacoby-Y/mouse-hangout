@@ -5,3 +5,5 @@ export const trails = writable<Trails>({});
 export const scale = writable(1);
 
 export const uid = btoa(Math.random().toString()).slice(-5);
+
+export const render = writable(()=>{});

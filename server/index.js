@@ -1,20 +1,13 @@
-// import { Server } from "socket.io";
-// import http from "http";
-
-// const server = http.createServer();
-// const io = new Server(server, {
-// //   cors: { origin: "*", },
-// });
-
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+    // cors: { origin: "*" }
+});
 
-// Serve static files from the "public" directory
 app.use(express.static('public'));
 
 // Set up a route to serve the index.html file

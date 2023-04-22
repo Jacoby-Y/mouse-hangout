@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { mice, scale, trails, uid } from "../store";
+    import { mice, scale, trails, uid, render as renderMice } from "../store";
     import CursorSrc from "../assets/cursor.png";
     import { emitTrail } from "../socket";
 
@@ -25,10 +25,8 @@
             my_trail.push({ x, y });
         }
 
-        ctx.fillStyle = "white";
-        ctx.fillRect(500, 500, 5, 5);
-
-        // $trails["Joe"] = [...new Array(100)].map((_, i)=>({ x: i*10+100 + (Math.random() * 50), y: i*6+300 + (Math.random() * 50) })).reverse();
+        ctx.fillStyle = "purple";
+        ctx.fillRect(10, 10, 10, 10);
 
         setInterval(()=>{
             if (my_trail.length == 0) return;
@@ -44,12 +42,17 @@
 
     function clear() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // console.log("Clear!");
     }
 
+    let to_clear = false;
     function render() {
         if (canvas == null) return;
 
-        clear();
+        if (to_clear) {
+            to_clear = false;
+            clear();
+        }
         
         for (const key in $mice) {
             const { name, x, y } = $mice[key];
@@ -59,15 +62,16 @@
                 $mice[key].x = new_pos.x;
                 $mice[key].y = new_pos.y;
 
-                // if (!cleared) {
-                //     cleared = true;
-                //     clear();
-                // }
+                // console.log(new_pos.x + ", " + new_pos.y);
+
+                to_clear = true;
             }
 
             ctx.drawImage(cursorImg, x, y, 11*1.3 / $scale, 17*1.3 / $scale);
         }
     }
+
+    $renderMice = render;
 
 </script>
 
